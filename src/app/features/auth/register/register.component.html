@@ -1,0 +1,47 @@
+<div class="register">
+  <h2 class="register__title">Create your account</h2>
+  <p class="register__subtitle">Start generating content that sounds like you</p>
+
+  <form class="register__form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    @if (submitError()) {
+      <div class="register__error" role="alert">
+        {{ submitError() }}
+      </div>
+    }
+
+    <app-form-input
+      label="Email"
+      type="email"
+      placeholder="you@example.com"
+      inputId="register-email"
+      formControlName="email"
+      [control]="$any(emailControl)"
+      [errorMessages]="emailErrorMessages"
+    ></app-form-input>
+
+    <app-form-input
+      label="Password"
+      type="password"
+      placeholder="At least 8 characters"
+      inputId="register-password"
+      formControlName="password"
+      [control]="$any(passwordControl)"
+      [errorMessages]="passwordErrorMessages"
+    ></app-form-input>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [loading]="isSubmitting()"
+      [disabled]="isSubmitting()"
+      [fullWidth]="true"
+    >
+      Create Account
+    </app-button>
+  </form>
+
+  <p class="register__footer">
+    Already have an account?
+    <a class="register__link" routerLink="/login">Sign in</a>
+  </p>
+</div>

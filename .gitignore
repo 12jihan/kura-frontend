@@ -19,6 +19,11 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+.claude
+.gemini
+.git
+.editorconfig
+
 
 # Visual Studio Code
 .vscode/*
@@ -38,6 +43,8 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
+/_bmad
+/_bmad-output
 
 # System files
 .DS_Store

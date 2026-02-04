@@ -1,0 +1,89 @@
+// =============================================================================
+// Typography - Inter Font Loading & Styles
+// =============================================================================
+
+@use 'variables' as *;
+
+// Inter Font Import (Variable Font)
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// Base Typography
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: $color-text-primary;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $color-text-primary;
+}
+
+h1 {
+  font-size: $font-size-2xl;
+}
+
+h2 {
+  font-size: $font-size-xl;
+}
+
+h3 {
+  font-size: $font-size-lg;
+}
+
+h4 {
+  font-size: $font-size-base;
+}
+
+h5,
+h6 {
+  font-size: $font-size-sm;
+}
+
+// Body Text
+p {
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}
+
+// Links
+a {
+  color: $color-accent-primary;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-accent-hover;
+  }
+}
+
+// Small Text
+small {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+// Code
+code,
+pre {
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  font-size: $font-size-sm;
+}
+
+// Selection
+::selection {
+  background-color: rgba($color-accent-primary, 0.3);
+  color: $color-text-primary;
+}

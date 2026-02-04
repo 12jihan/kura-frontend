@@ -1,0 +1,107 @@
+@use '../../../../styles/variables' as *;
+
+.toast-container {
+  position: fixed;
+  bottom: $spacing-6;
+  right: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  z-index: 1000;
+  max-width: 400px;
+
+  @media (max-width: 767px) {
+    left: $spacing-4;
+    right: $spacing-4;
+    bottom: calc($spacing-6 + 60px); // Above mobile bottom nav
+    max-width: none;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3 $spacing-4;
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-md;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.2s ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  &--success {
+    border-left: 3px solid $color-success;
+
+    .toast__icon {
+      color: $color-success;
+    }
+  }
+
+  &--error {
+    border-left: 3px solid $color-error;
+
+    .toast__icon {
+      color: $color-error;
+    }
+  }
+
+  &--info {
+    border-left: 3px solid $color-accent-primary;
+
+    .toast__icon {
+      color: $color-accent-primary;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__message {
+    flex: 1;
+    font-size: $font-size-sm;
+    color: $color-text-primary;
+    line-height: 1.4;
+  }
+
+  &__dismiss {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    color: $color-text-muted;
+    cursor: pointer;
+    transition: color $transition-fast, background-color $transition-fast;
+
+    &:hover {
+      color: $color-text-primary;
+      background-color: $color-bg-tertiary;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-accent-primary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

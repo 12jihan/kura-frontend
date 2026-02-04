@@ -1,0 +1,51 @@
+<div class="login">
+  <h2 class="login__title">Welcome back</h2>
+  <p class="login__subtitle">Sign in to your account</p>
+
+  <form class="login__form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" [attr.aria-describedby]="submitError() ? 'login-error' : null">
+    @if (submitError()) {
+      <div id="login-error" class="login__error" role="alert" aria-live="assertive">
+        {{ submitError() }}
+      </div>
+    }
+
+    <app-form-input
+      label="Email"
+      type="email"
+      placeholder="you@example.com"
+      inputId="login-email"
+      formControlName="email"
+      [control]="$any(emailControl)"
+      [errorMessages]="emailErrorMessages"
+    ></app-form-input>
+
+    <app-form-input
+      label="Password"
+      type="password"
+      placeholder="Enter your password"
+      inputId="login-password"
+      formControlName="password"
+      [control]="$any(passwordControl)"
+      [errorMessages]="passwordErrorMessages"
+    ></app-form-input>
+
+    <div class="login__forgot">
+      <a class="login__link" routerLink="/password-reset">Forgot password?</a>
+    </div>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [loading]="isSubmitting()"
+      [disabled]="isSubmitting()"
+      [fullWidth]="true"
+    >
+      Log In
+    </app-button>
+  </form>
+
+  <p class="login__footer">
+    Don't have an account?
+    <a class="login__link" routerLink="/register">Sign up</a>
+  </p>
+</div>

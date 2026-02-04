@@ -1,0 +1,70 @@
+@use '../../../../styles/variables' as *;
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+
+  &__field {
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    background-color: $color-bg-input;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-sm;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-family: $font-family-primary;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-border-accent;
+      box-shadow: 0 0 0 1px $color-border-accent;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: $color-bg-tertiary;
+    }
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-error;
+  }
+
+  // Modifier: Error state
+  &--error {
+    .form-input__field {
+      border-color: $color-error;
+
+      &:focus {
+        border-color: $color-error;
+        box-shadow: 0 0 0 1px $color-error;
+      }
+    }
+  }
+
+  // Modifier: Disabled state
+  &--disabled {
+    .form-input__label {
+      color: $color-text-muted;
+    }
+  }
+}

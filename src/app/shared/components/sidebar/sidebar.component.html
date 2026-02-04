@@ -1,0 +1,41 @@
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="sidebar__header">
+    <a routerLink="/cards" class="sidebar__logo">Kura</a>
+  </div>
+
+  <nav class="sidebar__nav">
+    <a
+      routerLink="/cards"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <lucide-icon [img]="icons.layoutGrid" class="sidebar__icon" aria-hidden="true"></lucide-icon>
+      <span>Cards</span>
+    </a>
+    <a
+      routerLink="/scheduled"
+      routerLinkActive="sidebar__link--active"
+      class="sidebar__link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <lucide-icon [img]="icons.calendarClock" class="sidebar__icon" aria-hidden="true"></lucide-icon>
+      <span>Scheduled</span>
+    </a>
+  </nav>
+
+  <div class="sidebar__user">
+    <div class="sidebar__avatar" aria-hidden="true">
+      <lucide-icon [img]="icons.user" class="sidebar__avatar-icon"></lucide-icon>
+    </div>
+    <button
+      type="button"
+      class="sidebar__logout"
+      (click)="onLogout()"
+      aria-label="Log out"
+    >
+      <lucide-icon [img]="icons.logOut" class="sidebar__icon" aria-hidden="true"></lucide-icon>
+      <span>Log out</span>
+    </button>
+  </div>
+</aside>

@@ -1,0 +1,15 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.main-layout {
+  &__content {
+    margin-left: $sidebar-width;
+    min-height: 100vh;
+    padding: $spacing-6;
+
+    @include mobile-only {
+      margin-left: 0;
+      padding-bottom: 80px;
+    }
+  }
+}

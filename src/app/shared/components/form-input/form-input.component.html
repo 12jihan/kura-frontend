@@ -1,0 +1,26 @@
+<div class="form-input" [class.form-input--error]="showError" [class.form-input--disabled]="disabled">
+  @if (label) {
+    <label class="form-input__label" [attr.for]="inputId">{{ label }}</label>
+  }
+
+  <input
+    class="form-input__field"
+    [type]="type"
+    [id]="inputId"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.aria-describedby]="hint ? inputId + '-hint' : (showError ? inputId + '-error' : null)"
+    [attr.aria-invalid]="showError"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
+
+  @if (hint && !showError) {
+    <span class="form-input__hint" [id]="inputId + '-hint'">{{ hint }}</span>
+  }
+
+  @if (showError) {
+    <span class="form-input__error" [id]="inputId + '-error'" role="alert">{{ errorMessage }}</span>
+  }
+</div>

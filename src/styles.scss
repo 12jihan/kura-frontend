@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+// =============================================================================
+// Global Styles Entry Point - Kura Frontend
+// =============================================================================
+
+@use 'styles/variables' as *;
+@use 'styles/reset';
+@use 'styles/typography';
+@use 'styles/utilities';
+
+// Global Dark Theme
+html,
+body {
+  height: 100%;
+  background-color: $color-bg-primary;
+  color: $color-text-primary;
+}
+
+// App Root
+app-root {
+  display: block;
+  min-height: 100%;
+}

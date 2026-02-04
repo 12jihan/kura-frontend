@@ -1,0 +1,112 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.sidebar {
+  @include flex-column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background-color: $color-bg-secondary;
+  border-right: 1px solid $color-border-subtle;
+  padding: $spacing-6;
+  z-index: $z-index-sidebar;
+
+  &__header {
+    margin-bottom: $spacing-8;
+  }
+
+  &__logo {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      color: $color-accent-primary;
+    }
+  }
+
+  &__nav {
+    @include flex-column;
+    gap: $spacing-2;
+    flex: 1;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+    @include focus-visible-ring;
+
+    &:hover {
+      background-color: $color-bg-tertiary;
+      color: $color-text-primary;
+    }
+
+    &--active {
+      background-color: rgba($color-accent-primary, 0.15);
+      color: $color-accent-primary;
+      border-left: 3px solid $color-accent-primary;
+      margin-left: -3px;
+
+      &:hover {
+        background-color: rgba($color-accent-primary, 0.2);
+      }
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  &__user {
+    @include flex-column;
+    gap: $spacing-3;
+    padding-top: $spacing-6;
+    border-top: 1px solid $color-border-subtle;
+  }
+
+  &__avatar {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    background-color: $color-bg-tertiary;
+    color: $color-text-muted;
+  }
+
+  &__avatar-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__logout {
+    @include button-reset;
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $radius-md;
+    color: $color-text-secondary;
+    font-weight: $font-weight-medium;
+    width: 100%;
+    transition: all $transition-fast;
+    @include focus-visible-ring;
+
+    &:hover {
+      background-color: $color-bg-tertiary;
+      color: $color-error;
+    }
+  }
+}

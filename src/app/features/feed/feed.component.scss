@@ -1,0 +1,17 @@
+@use '../../../styles/variables' as *;
+
+.feed {
+  &__header {
+    margin-bottom: $spacing-6;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__placeholder {
+    color: $color-text-muted;
+  }
+}
