@@ -187,6 +187,21 @@ describe('PasswordResetComponent', () => {
     });
   });
 
+  describe('Error Recovery', () => {
+    it('should re-enable form if AuthService throws unexpected error', async () => {
+      mockAuthService.sendPasswordResetEmail.mockRejectedValue(
+        new Error('unexpected')
+      );
+
+      component.resetForm.setValue({ email: 'test@example.com' });
+      await component.onSubmit();
+
+      expect(component.resetForm.enabled).toBe(true);
+      expect(component.isSubmitted()).toBe(false);
+      expect(component.isSubmitting()).toBe(false);
+    });
+  });
+
   describe('Success State', () => {
     it('should display success icon after submission', async () => {
       component.resetForm.setValue({ email: 'test@example.com' });

@@ -1,10 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
   ReactiveFormsModule,
   FormBuilder,
   FormGroup,
+  FormControl,
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -16,7 +16,6 @@ import { LucideAngularModule, CheckCircle2 } from 'lucide-angular';
   selector: 'app-password-reset',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterLink,
     FormInputComponent,
@@ -44,8 +43,8 @@ export class PasswordResetComponent {
     email: 'Please enter a valid email',
   };
 
-  get emailControl() {
-    return this.resetForm.get('email');
+  get emailControl(): FormControl {
+    return this.resetForm.get('email') as FormControl;
   }
 
   async onSubmit(): Promise<void> {
@@ -62,9 +61,11 @@ export class PasswordResetComponent {
     try {
       await this.authService.sendPasswordResetEmail(email);
       this.isSubmitted.set(true);
+    } catch {
+      // Re-enable form on unexpected error so user can retry
+      this.resetForm.enable();
     } finally {
       this.isSubmitting.set(false);
-      // Don't re-enable form - keep showing success state
     }
   }
 }

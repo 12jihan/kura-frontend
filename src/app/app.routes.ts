@@ -31,6 +31,7 @@ export const routes: Routes = [
           import('./features/auth/password-reset/password-reset.component').then(
             (m) => m.PasswordResetComponent
           ),
+        canActivate: [noAuthGuard],
       },
     ],
   },

@@ -1,38 +1,95 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { signal } from '@angular/core';
-import { of, BehaviorSubject } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { AuthService } from './auth.service';
+import { Auth } from '@angular/fire/auth';
 
-/**
- * Since we can't easily mock the Firebase auth functions at module level with ESM,
- * we'll test the AuthService behavior through the component tests instead.
- * The PasswordResetComponent tests already thoroughly test the sendPasswordResetEmail flow.
- *
- * For direct AuthService testing, we'd need to:
- * 1. Refactor AuthService to accept injectable auth functions
- * 2. Or use integration tests with Firebase emulator
- *
- * The current implementation is tested indirectly via:
- * - password-reset.component.spec.ts: Tests the full form submission flow
- *
- * The security behavior (AC#4) is enforced by the implementation that:
- * - Catches all errors silently
- * - Never exposes whether an email exists
- * - Always appears successful to prevent email enumeration
- */
+const mocks = vi.hoisted(() => ({
+  sendPasswordResetEmail: vi.fn(),
+  authState: vi.fn(),
+  signOut: vi.fn(),
+  createUserWithEmailAndPassword: vi.fn(),
+  signInWithEmailAndPassword: vi.fn(),
+}));
+
+vi.mock('@angular/fire/auth', () => ({
+  Auth: class MockAuth {},
+  authState: mocks.authState,
+  sendPasswordResetEmail: mocks.sendPasswordResetEmail,
+  signOut: mocks.signOut,
+  createUserWithEmailAndPassword: mocks.createUserWithEmailAndPassword,
+  signInWithEmailAndPassword: mocks.signInWithEmailAndPassword,
+  AuthError: class MockAuthError extends Error {},
+}));
 
 describe('AuthService', () => {
-  describe('sendPasswordResetEmail (documented behavior)', () => {
-    it('should be tested through component integration tests', () => {
-      // This is a placeholder to document that sendPasswordResetEmail is tested
-      // through PasswordResetComponent tests in password-reset.component.spec.ts
-      //
-      // The method:
-      // 1. Sets isLoading(true) at start
-      // 2. Calls Firebase sendPasswordResetEmail
-      // 3. Catches all errors silently (AC#4 security)
-      // 4. Never sets error signal (prevents email enumeration)
-      // 5. Sets isLoading(false) in finally block
-      expect(true).toBe(true);
+  let service: AuthService;
+  const mockAuth = {} as Auth;
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mocks.authState.mockReturnValue(of(null));
+    mocks.sendPasswordResetEmail.mockResolvedValue(undefined);
+    mocks.signOut.mockResolvedValue(undefined);
+
+    TestBed.configureTestingModule({
+      providers: [{ provide: Auth, useValue: mockAuth }],
+    });
+
+    service = TestBed.inject(AuthService);
+  });
+
+  describe('sendPasswordResetEmail', () => {
+    it('should call Firebase sendPasswordResetEmail with auth and email', async () => {
+      await service.sendPasswordResetEmail('test@example.com');
+      expect(mocks.sendPasswordResetEmail).toHaveBeenCalledWith(
+        mockAuth,
+        'test@example.com'
+      );
+    });
+
+    it('should set isLoading to true during the request', async () => {
+      let loadingDuringCall = false;
+      mocks.sendPasswordResetEmail.mockImplementation(async () => {
+        loadingDuringCall = service.isLoading();
+      });
+
+      await service.sendPasswordResetEmail('test@example.com');
+      expect(loadingDuringCall).toBe(true);
+    });
+
+    it('should set isLoading to false after successful completion', async () => {
+      await service.sendPasswordResetEmail('test@example.com');
+      expect(service.isLoading()).toBe(false);
+    });
+
+    it('should silently handle errors without setting error signal (AC#4)', async () => {
+      mocks.sendPasswordResetEmail.mockRejectedValue(
+        new Error('auth/user-not-found')
+      );
+
+      await service.sendPasswordResetEmail('nonexistent@example.com');
+
+      expect(service.error()).toBeNull();
+    });
+
+    it('should set isLoading to false even when error occurs', async () => {
+      mocks.sendPasswordResetEmail.mockRejectedValue(
+        new Error('network error')
+      );
+
+      await service.sendPasswordResetEmail('test@example.com');
+
+      expect(service.isLoading()).toBe(false);
+    });
+
+    it('should not throw to prevent email enumeration (AC#4)', async () => {
+      mocks.sendPasswordResetEmail.mockRejectedValue(
+        new Error('auth/user-not-found')
+      );
+
+      await expect(
+        service.sendPasswordResetEmail('test@example.com')
+      ).resolves.toBeUndefined();
     });
   });
 });
