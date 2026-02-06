@@ -6,6 +6,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   AuthError,
 } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
@@ -77,6 +78,23 @@ export class AuthService {
       const authError = err as AuthError;
       this.error.set(this.mapFirebaseError(authError.code));
       throw err;
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  async sendPasswordResetEmail(email: string): Promise<void> {
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+      // Success - Firebase sends the email
+    } catch (err) {
+      // IMPORTANT: For security, we don't expose whether the email exists
+      // Log the error internally but don't show to user (AC#4)
+      console.error('Password reset error:', err);
+      // Don't set error or throw - always appear successful to prevent email enumeration
     } finally {
       this.isLoading.set(false);
     }
