@@ -135,7 +135,7 @@ describe('RegisterComponent', () => {
     );
   });
 
-  it('should redirect to cards page on successful registration', async () => {
+  it('should redirect to onboarding on successful registration', async () => {
     authServiceMock.register.mockResolvedValue(undefined);
 
     component.registerForm.setValue({
@@ -145,7 +145,7 @@ describe('RegisterComponent', () => {
 
     await component.onSubmit();
 
-    expect(navigateSpy).toHaveBeenCalledWith(['/cards']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/onboarding/step-1']);
   });
 
   it('should display error message on registration failure', async () => {

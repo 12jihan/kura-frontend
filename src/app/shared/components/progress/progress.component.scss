@@ -1,0 +1,57 @@
+@use '../../../../styles/variables' as *;
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-2;
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: $spacing-1;
+  }
+
+  &__indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    background-color: $color-bg-secondary;
+    color: $color-text-muted;
+    border: 2px solid $color-border-subtle;
+    transition: all $transition-normal;
+  }
+
+  &__step--active &__indicator {
+    background-color: $color-accent-primary;
+    color: $color-text-primary;
+    border-color: $color-accent-primary;
+  }
+
+  &__step--complete &__indicator {
+    background-color: $color-success;
+    color: $color-text-primary;
+    border-color: $color-success;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    transition: color $transition-normal;
+  }
+
+  &__step--active &__label {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+
+  &__step--complete &__label {
+    color: $color-text-secondary;
+  }
+}

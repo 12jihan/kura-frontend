@@ -1,0 +1,27 @@
+@use '../../../../../styles/variables' as *;
+
+.handle-step {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: $spacing-6;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    text-align: center;
+    margin-bottom: $spacing-2;
+  }
+
+  &__subtitle {
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-6;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+}

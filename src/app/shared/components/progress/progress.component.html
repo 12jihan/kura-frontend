@@ -1,0 +1,16 @@
+<div class="progress" role="progressbar" [attr.aria-valuenow]="currentStep()" [attr.aria-valuemax]="steps().length" [attr.aria-label]="'Step ' + currentStep() + ' of ' + steps().length">
+  @for (step of steps(); track step; let i = $index) {
+    <div class="progress__step"
+         [class.progress__step--complete]="i + 1 < currentStep()"
+         [class.progress__step--active]="i + 1 === currentStep()">
+      <div class="progress__indicator">
+        @if (i + 1 < currentStep()) {
+          <lucide-icon [img]="checkIcon" [size]="14" aria-hidden="true"></lucide-icon>
+        } @else {
+          <span>{{ i + 1 }}</span>
+        }
+      </div>
+      <span class="progress__label">{{ step }}</span>
+    </div>
+  }
+</div>

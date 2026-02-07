@@ -9,8 +9,17 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
+import { Auth } from '@angular/fire/auth';
 import { authInterceptor } from './auth.interceptor';
 import { ToastService } from '../services/toast.service';
+
+vi.mock('@angular/fire/auth', () => ({
+  Auth: class MockAuth {
+    get currentUser() {
+      return null;
+    }
+  },
+}));
 
 describe('authInterceptor', () => {
   let httpClient: HttpClient;
@@ -28,6 +37,7 @@ describe('authInterceptor', () => {
         provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: ToastService, useValue: mockToastService },
+        { provide: Auth, useClass: (Auth as any) },
       ],
     });
 
@@ -49,7 +59,7 @@ describe('authInterceptor', () => {
     req.flush({ data: 'test' });
   });
 
-  it('should redirect to login on 401 error (AC#5)', () => {
+  it('should redirect to login on 401 error', () => {
     httpClient.get('/api/test').subscribe({
       error: () => {
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
@@ -60,7 +70,7 @@ describe('authInterceptor', () => {
     req.flush(null, { status: 401, statusText: 'Unauthorized' });
   });
 
-  it('should show toast notification on 401 error (AC#5)', () => {
+  it('should show toast notification on 401 error', () => {
     httpClient.get('/api/test').subscribe({
       error: () => {
         expect(mockToastService.error).toHaveBeenCalledWith(

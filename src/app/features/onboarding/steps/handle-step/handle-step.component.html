@@ -1,0 +1,26 @@
+<div class="handle-step">
+  <h2 class="handle-step__title">What's your handle?</h2>
+  <p class="handle-step__subtitle">Enter your handle or business name for personalized content</p>
+
+  <form class="handle-step__form" [formGroup]="handleForm" (ngSubmit)="onSubmit()">
+    <app-form-input
+      label="Handle"
+      type="text"
+      placeholder="@YourHandle or Business Name"
+      inputId="handle-input"
+      formControlName="handle"
+      [control]="$any(handleControl)"
+      [errorMessages]="handleErrorMessages"
+    ></app-form-input>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [loading]="isSubmitting()"
+      [disabled]="isSubmitting()"
+      [fullWidth]="true"
+    >
+      Next
+    </app-button>
+  </form>
+</div>

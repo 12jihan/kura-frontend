@@ -68,8 +68,7 @@ export class RegisterComponent {
 
     try {
       await this.authService.register(email, password);
-      // Redirect to onboarding (placeholder for now, will be implemented in Epic 2)
-      await this.router.navigate(['/cards']);
+      await this.router.navigate(['/onboarding/step-1']);
     } catch {
       // Error is already set in AuthService
       this.submitError.set(this.authService.error());

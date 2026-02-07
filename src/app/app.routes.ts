@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core';
 import { noAuthGuard } from './core/auth/no-auth.guard';
+import { onboardingGuard } from './core/auth/onboarding.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { onboardingRoutes } from './features/onboarding/onboarding.routes';
 
 export const routes: Routes = [
   {
@@ -36,9 +38,18 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'onboarding',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/onboarding/onboarding-layout/onboarding-layout.component').then(
+        (m) => m.OnboardingLayoutComponent
+      ),
+    children: onboardingRoutes,
+  },
+  {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, onboardingGuard],
     children: [
       {
         path: 'cards',
