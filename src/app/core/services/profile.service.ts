@@ -48,10 +48,6 @@ export class ProfileService {
     }
   }
 
-  async newProfile(handle: string): Promise<UserProfile> {
-    let test: UserProfile;
-    return test;
-  };
   async updateProfile(data: Partial<UserProfile>): Promise<UserProfile> {
     this.isLoading.set(true);
     this.error.set(null);
@@ -72,14 +68,34 @@ export class ProfileService {
   }
 
   async completeOnboardingStep(step: number, data: Record<string, unknown>): Promise<UserProfile> {
+    this._profile.update(current => {
+      if (!current) return null;
+      return {
+        ...current,
+        ...data,
+        onboarding_step: step
+      } as UserProfile;
+    })
+
+
+    // Here we're gonna check if it's the final step
+    if (step < 4) {
+      return Promise.resolve(this._profile()!);
+    }
+
     this.isLoading.set(true);
     this.error.set(null);
-    console.log("data:", data);
 
     try {
+      const finalProfileState = this._profile();
+
       const profile = await firstValueFrom(
-        this.http.post<UserProfile>('/api/profile/onboard', { step, data })
+        this.http.post<UserProfile>('/api/profile/onboard', {
+          step,
+          data: finalProfileState
+        })
       );
+
       this._profile.set(profile);
       return profile;
     } catch (err) {
