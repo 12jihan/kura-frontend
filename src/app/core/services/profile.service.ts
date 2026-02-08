@@ -48,6 +48,10 @@ export class ProfileService {
     }
   }
 
+  async newProfile(handle: string): Promise<UserProfile> {
+    let test: UserProfile;
+    return test;
+  };
   async updateProfile(data: Partial<UserProfile>): Promise<UserProfile> {
     this.isLoading.set(true);
     this.error.set(null);
@@ -70,6 +74,7 @@ export class ProfileService {
   async completeOnboardingStep(step: number, data: Record<string, unknown>): Promise<UserProfile> {
     this.isLoading.set(true);
     this.error.set(null);
+    console.log("data:", data);
 
     try {
       const profile = await firstValueFrom(
