@@ -126,33 +126,59 @@ describe('ProfileService', () => {
   });
 
   describe('completeOnboardingStep', () => {
-    it('should send POST request with step and data', async () => {
-      const updatedProfile = { ...mockProfile, onboarding_step: 2 };
-      httpMock.post.mockReturnValue(of(updatedProfile));
-
+    it('should not send POST for steps < 4 and resolve immediately', async () => {
       const result = await service.completeOnboardingStep(1, { handle: 'myhandle' });
+
+      expect(httpMock.post).not.toHaveBeenCalled();
+      expect(result).toBeNull();
+    });
+
+    it('should update local profile state for steps < 4 when profile exists', async () => {
+      httpMock.get.mockReturnValue(of(mockProfile));
+      await service.getProfile();
+
+      await service.completeOnboardingStep(2, { content_type: 'thought-leadership' });
+
+      expect(service.profile()?.onboarding_step).toBe(2);
+      expect(service.profile()?.content_type).toBe('thought-leadership');
+    });
+
+    it('should send POST request for step >= 4', async () => {
+      httpMock.get.mockReturnValue(of(mockProfile));
+      await service.getProfile();
+
+      const completedProfile = { ...mockProfile, onboarding_step: 4, onboarding_complete: true, keywords: ['SaaS'] };
+      httpMock.post.mockReturnValue(of(completedProfile));
+
+      const result = await service.completeOnboardingStep(4, { keywords: ['SaaS'] });
 
       expect(httpMock.post).toHaveBeenCalledWith(
         '/api/profile/onboard',
-        { step: 1, data: { handle: 'myhandle' } }
+        expect.objectContaining({ step: 4 })
       );
-      expect(result.onboarding_step).toBe(2);
-      expect(service.profile()?.onboarding_step).toBe(2);
+      expect(result.onboarding_step).toBe(4);
+      expect(service.profile()?.onboarding_step).toBe(4);
     });
 
-    it('should update onboardingStep computed signal', async () => {
-      const updatedProfile = { ...mockProfile, onboarding_step: 2 };
-      httpMock.post.mockReturnValue(of(updatedProfile));
+    it('should update onboardingStep computed signal after step 4', async () => {
+      httpMock.get.mockReturnValue(of(mockProfile));
+      await service.getProfile();
 
-      await service.completeOnboardingStep(1, { handle: 'test' });
+      const completedProfile = { ...mockProfile, onboarding_step: 4 };
+      httpMock.post.mockReturnValue(of(completedProfile));
 
-      expect(service.onboardingStep()).toBe(2);
+      await service.completeOnboardingStep(4, { keywords: ['test'] });
+
+      expect(service.onboardingStep()).toBe(4);
     });
 
-    it('should set error on failure', async () => {
+    it('should set error on failure for step >= 4', async () => {
+      httpMock.get.mockReturnValue(of(mockProfile));
+      await service.getProfile();
+
       httpMock.post.mockReturnValue(throwError(() => new Error('Server error')));
 
-      await service.completeOnboardingStep(1, { handle: 'test' }).catch(() => {});
+      await service.completeOnboardingStep(4, { keywords: ['test'] }).catch(() => {});
 
       expect(service.error()).toBe('Server error');
     });

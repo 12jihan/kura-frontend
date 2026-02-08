@@ -22,5 +22,12 @@ export const onboardingRoutes: Routes = [
         (m) => m.VoiceStepComponent
       ),
   },
+  {
+    path: 'step-4',
+    loadComponent: () =>
+      import('./steps/keywords-step/keywords-step.component').then(
+        (m) => m.KeywordsStepComponent
+      ),
+  },
   { path: '', redirectTo: 'step-1', pathMatch: 'full' },
 ];

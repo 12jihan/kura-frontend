@@ -1,0 +1,41 @@
+<div class="keywords-step">
+  <h2 class="keywords-step__title">Add your keywords</h2>
+  <p class="keywords-step__subtitle">Define the topics that matter most to your audience</p>
+
+  <div class="keywords-step__form">
+    <div class="form-group">
+      <label class="form-group__label">Keywords</label>
+      <app-tag-input
+        placeholder="e.g., indie hacking, bootstrapping, SaaS"
+        [maxTags]="10"
+        (tagsChange)="onTagsChange($event)"
+      />
+      @if (showError()) {
+        <span class="form-group__error" role="alert">Add at least one keyword to help personalize your content</span>
+      } @else {
+        <span class="form-group__hint">Press Enter or comma to add a keyword</span>
+      }
+    </div>
+
+    <div class="keywords-step__actions">
+      <app-button
+        type="button"
+        variant="secondary"
+        (buttonClick)="goBack()"
+        [disabled]="isSubmitting()"
+      >
+        Back
+      </app-button>
+
+      <app-button
+        type="button"
+        variant="primary"
+        [loading]="isSubmitting()"
+        [disabled]="isSubmitting()"
+        (buttonClick)="onSubmit()"
+      >
+        Complete Setup
+      </app-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+@use '../../../../../styles/variables' as *;
+
+.keywords-step {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: $spacing-6;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    text-align: center;
+    margin-bottom: $spacing-2;
+  }
+
+  &__subtitle {
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-6;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-4;
+    margin-top: $spacing-2;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-error;
+  }
+}

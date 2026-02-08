@@ -1,0 +1,33 @@
+<div class="tag-input" [class.tag-input--max]="isAtMax()">
+  <div class="tag-input__tags" role="list">
+    @for (tag of tags(); track tag; let i = $index) {
+      <span
+        class="tag"
+        [class.tag--highlight]="highlightedTag() === tag"
+        role="listitem"
+      >
+        <span class="tag__text">{{ tag }}</span>
+        <button
+          type="button"
+          class="tag__remove"
+          [attr.aria-label]="'Remove ' + tag"
+          (click)="removeTag(i)"
+        >
+          <lucide-icon [img]="xIcon" [size]="12" aria-hidden="true"></lucide-icon>
+        </button>
+      </span>
+    }
+    @if (!isAtMax()) {
+      <input
+        class="tag-input__field"
+        type="text"
+        [placeholder]="tags().length === 0 ? placeholder() : ''"
+        aria-label="Add keyword"
+        (keydown)="onKeyDown($event)"
+      />
+    }
+  </div>
+  @if (isAtMax()) {
+    <span class="tag-input__limit" role="status">Maximum {{ maxTags() }} keywords allowed</span>
+  }
+</div>
