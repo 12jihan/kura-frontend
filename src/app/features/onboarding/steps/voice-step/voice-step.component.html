@@ -1,0 +1,55 @@
+<div class="voice-step">
+  <h2 class="voice-step__title">Describe your brand voice</h2>
+  <p class="voice-step__subtitle">Help the AI match your unique tone and style</p>
+
+  <form class="voice-step__form" [formGroup]="voiceForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="brand-description" class="form-group__label">Brand Voice</label>
+      <textarea
+        id="brand-description"
+        class="form-group__textarea"
+        formControlName="brandDescription"
+        placeholder="e.g., 'Practical advice for solo founders, no fluff. I share real numbers and lessons from building in public.'"
+        rows="5"
+        [readonly]="isSubmitting()"
+        [class.form-group__textarea--error]="showDescriptionError"
+        [attr.aria-invalid]="showDescriptionError || null"
+        [attr.aria-describedby]="showDescriptionError ? 'brand-description-error' : 'brand-description-hint'"
+      ></textarea>
+
+      <div class="form-group__footer">
+        @if (showDescriptionError) {
+          <span id="brand-description-error" class="form-group__error" role="alert">{{ descriptionErrorMessage }}</span>
+        } @else {
+          <span id="brand-description-hint" class="form-group__hint">Describe how you want your content to sound</span>
+        }
+        <span
+          class="form-group__counter"
+          [class.form-group__counter--over]="isOverLimit()"
+        >
+          {{ currentLength() }} / {{ maxLength }}
+        </span>
+      </div>
+    </div>
+
+    <div class="voice-step__actions">
+      <app-button
+        type="button"
+        variant="secondary"
+        (buttonClick)="goBack()"
+        [disabled]="isSubmitting()"
+      >
+        Back
+      </app-button>
+
+      <app-button
+        type="submit"
+        variant="primary"
+        [loading]="isSubmitting()"
+        [disabled]="isSubmitting() || isOverLimit()"
+      >
+        Next
+      </app-button>
+    </div>
+  </form>
+</div>

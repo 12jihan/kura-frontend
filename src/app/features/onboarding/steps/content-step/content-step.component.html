@@ -1,0 +1,56 @@
+<div class="content-step">
+  <h2 class="content-step__title">What type of content do you create?</h2>
+  <p class="content-step__subtitle">Choose a category that best describes your content focus</p>
+
+  <form class="content-step__form" [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="content-type" class="form-group__label">Content Type</label>
+      <select
+        id="content-type"
+        class="form-group__select"
+        formControlName="contentType"
+        [class.form-group__select--error]="showContentTypeError"
+      >
+        <option value="" disabled>Select your content type</option>
+        @for (type of contentTypes; track type.value) {
+          <option [value]="type.value">{{ type.label }}</option>
+        }
+      </select>
+      @if (showContentTypeError) {
+        <span class="form-group__error" role="alert">Please select a content type</span>
+      }
+    </div>
+
+    @if (isOtherSelected()) {
+      <app-form-input
+        label="Describe your content focus"
+        type="text"
+        placeholder="e.g., Personal Development, Real Estate, Gaming"
+        inputId="custom-category"
+        formControlName="customCategory"
+        [control]="$any(customCategoryControl)"
+        [errorMessages]="customCategoryErrorMessages"
+      ></app-form-input>
+    }
+
+    <div class="content-step__actions">
+      <app-button
+        type="button"
+        variant="secondary"
+        (buttonClick)="goBack()"
+        [disabled]="isSubmitting()"
+      >
+        Back
+      </app-button>
+
+      <app-button
+        type="submit"
+        variant="primary"
+        [loading]="isSubmitting()"
+        [disabled]="isSubmitting()"
+      >
+        Next
+      </app-button>
+    </div>
+  </form>
+</div>

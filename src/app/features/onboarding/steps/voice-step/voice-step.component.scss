@@ -1,0 +1,107 @@
+@use '../../../../../styles/variables' as *;
+
+.voice-step {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: $spacing-6;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    text-align: center;
+    margin-bottom: $spacing-2;
+  }
+
+  &__subtitle {
+    color: $color-text-secondary;
+    text-align: center;
+    margin-bottom: $spacing-6;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-4;
+    margin-top: $spacing-2;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    background-color: $color-bg-input;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-sm;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-family: $font-family-primary;
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-border-accent;
+      box-shadow: 0 0 0 1px $color-border-accent;
+    }
+
+    &--error {
+      border-color: $color-error;
+
+      &:focus {
+        border-color: $color-error;
+        box-shadow: 0 0 0 1px $color-error;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: $spacing-2;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-error;
+  }
+
+  &__counter {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    flex-shrink: 0;
+
+    &--over {
+      color: $color-error;
+      font-weight: $font-weight-medium;
+    }
+  }
+}
