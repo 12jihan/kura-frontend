@@ -1,0 +1,33 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.card-item {
+  @include card-surface;
+  padding: $spacing-4;
+  transition: border-color $transition-normal, box-shadow $transition-normal;
+
+  &:hover {
+    border-color: $color-border-accent;
+    box-shadow: $shadow-glow;
+  }
+
+  &__content {
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    white-space: pre-wrap;
+  }
+
+  &__meta {
+    @include flex-between;
+    margin-top: $spacing-3;
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+  }
+
+  &__platform {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+  }
+}

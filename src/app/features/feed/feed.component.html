@@ -2,7 +2,41 @@
   <header class="feed__header">
     <h1 class="feed__title">Cards</h1>
   </header>
-  <p class="feed__placeholder">Card feed coming in Epic 4</p>
+
+  @if (isLoading()) {
+    <div class="feed__skeletons" aria-busy="true" aria-label="Loading cards">
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <app-card-skeleton />
+      }
+    </div>
+  } @else if (error()) {
+    <div class="feed__error">
+      <p class="feed__error-message">Couldn't load your cards</p>
+      <app-button variant="secondary" (buttonClick)="retryLoad()">Try Again</app-button>
+    </div>
+  } @else {
+    @if (cards().length === 0) {
+      <div class="feed__empty">
+        <p class="feed__empty-message">All caught up! Generate more cards when you're ready.</p>
+      </div>
+    } @else {
+      <div class="feed__cards">
+        @for (card of cards(); track card.id) {
+          <app-card-item [card]="card" />
+        }
+      </div>
+    }
+    <div class="feed__generate">
+      <app-button
+        variant="primary"
+        [loading]="isGenerating()"
+        [disabled]="isGenerating()"
+        (buttonClick)="generateMoreCards()"
+      >
+        {{ isGenerating() ? 'Generating...' : 'Generate More Cards' }}
+      </app-button>
+    </div>
+  }
 </div>
 
 <app-linkedin-connect-modal
@@ -10,4 +44,3 @@
   (connect)="onLinkedInConnect()"
   (skip)="onLinkedInSkip()"
 />
-

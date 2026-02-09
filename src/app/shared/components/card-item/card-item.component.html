@@ -1,0 +1,10 @@
+<article class="card-item" [attr.aria-label]="'Content card: ' + card().content.substring(0, 50)">
+  <div class="card-item__content">{{ card().content }}</div>
+  <div class="card-item__meta">
+    <span class="card-item__platform">
+      <lucide-icon [img]="linkedinIcon" [size]="16" aria-hidden="true"></lucide-icon>
+      LinkedIn
+    </span>
+    <span class="card-item__timestamp">Generated {{ card().created_at | relativeTime }}</span>
+  </div>
+</article>

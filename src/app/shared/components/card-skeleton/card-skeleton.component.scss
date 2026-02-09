@@ -1,0 +1,54 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.card-skeleton {
+  @include card-surface;
+  padding: $spacing-4;
+
+  &__block {
+    background: linear-gradient(
+      90deg,
+      $color-bg-tertiary 0px,
+      rgba($color-bg-tertiary, 0.5) 40px,
+      $color-bg-tertiary 80px
+    );
+    background-size: 200px 100%;
+    border-radius: $radius-sm;
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: shimmer 1.5s infinite linear;
+    }
+
+    &--content {
+      height: 16px;
+      width: 100%;
+      margin-bottom: $spacing-2;
+    }
+
+    &--content-short {
+      height: 16px;
+      width: 60%;
+      margin-bottom: $spacing-3;
+    }
+
+    &--icon {
+      height: 16px;
+      width: 80px;
+    }
+
+    &--timestamp {
+      height: 14px;
+      width: 60px;
+    }
+  }
+
+  &__meta {
+    @include flex-between;
+    margin-top: $spacing-3;
+  }
+}

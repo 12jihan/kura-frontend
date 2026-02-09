@@ -1,4 +1,5 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
 .feed {
   &__header {
@@ -11,7 +12,45 @@
     color: $color-text-primary;
   }
 
-  &__placeholder {
-    color: $color-text-muted;
+  &__cards {
+    @include flex-column;
+    gap: $spacing-4;
+  }
+
+  &__skeletons {
+    @include flex-column;
+    gap: $spacing-4;
+  }
+
+  &__error {
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-8 $spacing-4;
+    text-align: center;
+  }
+
+  &__error-message {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+  }
+
+  &__generate {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacing-6;
+  }
+
+  &__empty {
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-12 $spacing-4;
+    text-align: center;
+  }
+
+  &__empty-message {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
   }
 }
