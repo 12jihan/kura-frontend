@@ -4,8 +4,9 @@
 
   <div class="keywords-step__form">
     <div class="form-group">
-      <label class="form-group__label">Keywords</label>
+      <label class="form-group__label" for="keywords-input">Keywords</label>
       <app-tag-input
+        inputId="keywords-input"
         placeholder="e.g., indie hacking, bootstrapping, SaaS"
         [maxTags]="10"
         (tagsChange)="onTagsChange($event)"
@@ -13,7 +14,7 @@
       @if (showError()) {
         <span class="form-group__error" role="alert">Add at least one keyword to help personalize your content</span>
       } @else {
-        <span class="form-group__hint">Press Enter or comma to add a keyword</span>
+        <span class="form-group__hint">Add keywords that define your niche — press Enter or comma to add</span>
       }
     </div>
 

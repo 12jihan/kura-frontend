@@ -1,0 +1,20 @@
+@if (isOpen()) {
+  <div
+    class="linkedin-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="linkedin-modal-title"
+  >
+    <div class="linkedin-modal__backdrop" (click)="onBackdropClick()"></div>
+    <div class="linkedin-modal__card">
+      <h2 class="linkedin-modal__title" id="linkedin-modal-title">Connect LinkedIn</h2>
+      <p class="linkedin-modal__text">
+        Connect to publish directly to LinkedIn. You can always do this later from settings.
+      </p>
+      <div class="linkedin-modal__actions">
+        <app-button variant="secondary" (buttonClick)="onSkip()">Skip for now</app-button>
+        <app-button variant="primary" (buttonClick)="onConnect()">Connect LinkedIn</app-button>
+      </div>
+    </div>
+  </div>
+}

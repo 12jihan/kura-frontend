@@ -1,0 +1,149 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Hero Section
+.landing__hero {
+  text-align: center;
+  padding: $spacing-12 0;
+}
+
+.landing__headline {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+  margin: 0 0 $spacing-4;
+}
+
+.landing__subtitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  margin: 0 auto $spacing-8;
+  max-width: 480px;
+}
+
+// CTA Buttons
+.landing__cta-group {
+  display: flex;
+  gap: $spacing-4;
+  justify-content: center;
+
+  @include mobile-only {
+    flex-direction: column;
+  }
+}
+
+.landing__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  font-family: $font-family-primary;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  min-height: 44px;
+  min-width: 140px;
+
+  @include focus-visible-ring;
+
+  @include mobile-only {
+    width: 100%;
+  }
+
+  &--primary {
+    background-color: $color-accent-primary;
+    color: $color-text-inverse;
+    border: 1px solid $color-accent-primary;
+
+    &:hover {
+      background-color: $color-accent-hover;
+      border-color: $color-accent-hover;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    color: $color-accent-primary;
+    border: 1px solid $color-accent-primary;
+
+    &:hover {
+      background-color: $color-accent-subtle;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+// Features Section
+.landing__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-6;
+  padding: $spacing-12 0;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing__feature-card {
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border-subtle;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+  text-align: center;
+  transition: border-color $transition-normal, box-shadow $transition-normal;
+
+  &:hover {
+    border-color: $color-border-accent;
+    box-shadow: $shadow-glow;
+  }
+}
+
+.landing__feature-icon {
+  color: $color-accent-primary;
+  margin-bottom: $spacing-4;
+}
+
+.landing__feature-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-2;
+}
+
+.landing__feature-text {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  margin: 0;
+}
+
+// Footer CTA Section
+.landing__footer-cta {
+  text-align: center;
+  padding: $spacing-10 0 $spacing-12;
+}
+
+.landing__footer-text {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-6;
+}

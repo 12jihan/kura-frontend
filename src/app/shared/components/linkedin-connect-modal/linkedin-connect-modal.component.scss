@@ -1,0 +1,48 @@
+@use '../../../../styles/variables' as *;
+
+.linkedin-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    background-color: $color-bg-secondary;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-md;
+    padding: $spacing-8;
+    max-width: 420px;
+    width: calc(100% - #{$spacing-8});
+    text-align: center;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-3;
+  }
+
+  &__text {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-6;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-4;
+  }
+}

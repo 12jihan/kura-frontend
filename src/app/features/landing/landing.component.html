@@ -1,0 +1,27 @@
+<section class="landing__hero">
+  <h2 class="landing__headline">Your AI-powered content engine for LinkedIn</h2>
+  <p class="landing__subtitle">
+    Generate, refine, and schedule posts that sound like you — not a robot.
+  </p>
+  <div class="landing__cta-group">
+    <a routerLink="/register" class="landing__cta landing__cta--primary">Get Started</a>
+    <a routerLink="/login" class="landing__cta landing__cta--secondary">Log In</a>
+  </div>
+</section>
+
+<section class="landing__features" aria-label="Platform benefits">
+  @for (feature of features; track feature.title) {
+    <div class="landing__feature-card">
+      <div class="landing__feature-icon" aria-hidden="true">
+        <lucide-angular [img]="feature.icon" [size]="32" [strokeWidth]="1.5"></lucide-angular>
+      </div>
+      <h3 class="landing__feature-title">{{ feature.title }}</h3>
+      <p class="landing__feature-text">{{ feature.description }}</p>
+    </div>
+  }
+</section>
+
+<section class="landing__footer-cta">
+  <p class="landing__footer-text">Ready to transform your LinkedIn presence?</p>
+  <a routerLink="/register" class="landing__cta landing__cta--primary">Get Started</a>
+</section>

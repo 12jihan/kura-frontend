@@ -4,3 +4,10 @@
   </header>
   <p class="feed__placeholder">Card feed coming in Epic 4</p>
 </div>
+
+<app-linkedin-connect-modal
+  [isOpen]="showLinkedInModal()"
+  (connect)="onLinkedInConnect()"
+  (skip)="onLinkedInSkip()"
+/>
+

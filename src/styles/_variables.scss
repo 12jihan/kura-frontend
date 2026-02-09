@@ -21,8 +21,10 @@ $color-text-muted: #71717a;
 // Accent & Status
 $color-accent-primary: #8b5cf6;
 $color-accent-hover: #a78bfa;
+$color-accent-subtle: rgba(139, 92, 246, 0.1);
 $color-success: #22c55e;
 $color-error: #ef4444;
+$color-text-inverse: #0d0d0f;
 
 // Spacing Scale (4px base)
 $spacing-1: 4px;
@@ -32,6 +34,11 @@ $spacing-4: 16px;
 $spacing-5: 20px;
 $spacing-6: 24px;
 $spacing-8: 32px;
+$spacing-10: 40px;
+$spacing-12: 48px;
+
+// Shadows
+$shadow-glow: 0 0 20px rgba(139, 92, 246, 0.15);
 
 // Border Radius
 $radius-sm: 4px;
@@ -49,6 +56,7 @@ $font-size-base: 16px;
 $font-size-lg: 18px;
 $font-size-xl: 20px;
 $font-size-2xl: 24px;
+$font-size-3xl: 30px;
 
 // Line Heights
 $line-height-tight: 1.25;

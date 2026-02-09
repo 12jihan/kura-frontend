@@ -1,0 +1,131 @@
+<div class="settings">
+  <h1 class="settings__header">Settings</h1>
+
+  <form class="settings__form" [formGroup]="settingsForm" (ngSubmit)="onSave()">
+    <section class="settings__section">
+      <h2 class="settings__section-title">Handle</h2>
+      <app-form-input
+        label="Handle"
+        type="text"
+        placeholder="@YourHandle"
+        inputId="settings-handle"
+        formControlName="handle"
+        [control]="$any(settingsForm.get('handle'))"
+        [errorMessages]="handleErrorMessages"
+      ></app-form-input>
+    </section>
+
+    <section class="settings__section">
+      <h2 class="settings__section-title">Content Type</h2>
+      <div class="form-group">
+        <label for="settings-content-type" class="form-group__label">Content Type</label>
+        <select
+          id="settings-content-type"
+          class="form-group__select"
+          formControlName="contentType"
+          [class.form-group__select--error]="showContentTypeError"
+        >
+          <option value="" disabled>Select your content type</option>
+          @for (type of contentTypes; track type.value) {
+            <option [value]="type.value">{{ type.label }}</option>
+          }
+        </select>
+        @if (showContentTypeError) {
+          <span class="form-group__error" role="alert">Please select a content type</span>
+        }
+      </div>
+
+      @if (isOtherSelected()) {
+        <app-form-input
+          label="Describe your content focus"
+          type="text"
+          placeholder="e.g., Personal Development, Real Estate, Gaming"
+          inputId="settings-custom-category"
+          formControlName="customContentType"
+          [control]="$any(settingsForm.get('customContentType'))"
+          [errorMessages]="customCategoryErrorMessages"
+        ></app-form-input>
+      }
+    </section>
+
+    <section class="settings__section">
+      <h2 class="settings__section-title">Brand Description</h2>
+      <div class="form-group">
+        <label for="settings-brand-description" class="form-group__label">Brand Description</label>
+        <textarea
+          id="settings-brand-description"
+          class="form-group__textarea"
+          formControlName="brandDescription"
+          placeholder="Describe how you want your content to sound"
+          rows="4"
+        ></textarea>
+        <div class="settings__char-counter" [class.settings__char-counter--over]="descriptionLength() > maxDescriptionLength">
+          {{ descriptionLength() }} / {{ maxDescriptionLength }}
+        </div>
+        @if (settingsForm.get('brandDescription')?.touched && settingsForm.get('brandDescription')?.invalid) {
+          @if (settingsForm.get('brandDescription')?.hasError('required')) {
+            <span class="form-group__error" role="alert">{{ brandDescriptionErrorMessages['required'] }}</span>
+          } @else if (settingsForm.get('brandDescription')?.hasError('minlength')) {
+            <span class="form-group__error" role="alert">{{ brandDescriptionErrorMessages['minlength'] }}</span>
+          } @else if (settingsForm.get('brandDescription')?.hasError('maxlength')) {
+            <span class="form-group__error" role="alert">{{ brandDescriptionErrorMessages['maxlength'] }}</span>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="settings__section">
+      <h2 class="settings__section-title">Keywords</h2>
+      <app-tag-input
+        inputId="settings-keywords"
+        placeholder="Add keywords that define your niche..."
+        [maxTags]="10"
+        [initialTags]="profile()?.keywords ?? []"
+        (tagsChange)="onTagsChange($event)"
+      ></app-tag-input>
+    </section>
+
+    <section class="settings__section">
+      <h2 class="settings__section-title">LinkedIn</h2>
+      <div class="settings__linkedin">
+        @if (profile()?.linkedin_connected) {
+          <div class="settings__linkedin-status">
+            <span class="settings__linkedin-badge settings__linkedin-badge--connected">Connected</span>
+            <app-button
+              variant="secondary"
+              (buttonClick)="onDisconnectLinkedIn()"
+              [loading]="isConnecting()"
+              [disabled]="isConnecting()"
+            >
+              Disconnect
+            </app-button>
+          </div>
+        } @else {
+          <div class="settings__linkedin-status">
+            <span class="settings__linkedin-badge">Not connected</span>
+            <app-button
+              variant="primary"
+              (buttonClick)="onConnectLinkedIn()"
+            >
+              Connect LinkedIn
+            </app-button>
+          </div>
+        }
+        @if (linkedInError()) {
+          <p class="form-group__error">{{ linkedInError() }}</p>
+        }
+      </div>
+    </section>
+
+    <div class="settings__actions">
+      <app-button
+        type="submit"
+        variant="primary"
+        [loading]="isSaving()"
+        [disabled]="isSaving() || (!settingsForm.dirty && !hasUnsavedChanges())"
+      >
+        Save Changes
+      </app-button>
+    </div>
+  </form>
+</div>

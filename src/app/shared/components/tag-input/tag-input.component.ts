@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed } from '@angular/core';
+import { Component, input, output, signal, computed, OnInit } from '@angular/core';
 import { LucideAngularModule, X } from 'lucide-angular';
 
 @Component({
@@ -8,14 +8,23 @@ import { LucideAngularModule, X } from 'lucide-angular';
   templateUrl: './tag-input.component.html',
   styleUrl: './tag-input.component.scss',
 })
-export class TagInputComponent {
+export class TagInputComponent implements OnInit {
   readonly xIcon = X;
 
+  readonly inputId = input('');
   readonly placeholder = input('Type to add...');
   readonly maxTags = input(10);
+  readonly initialTags = input<string[]>([]);
   readonly tags = signal<string[]>([]);
 
   readonly tagsChange = output<string[]>();
+
+  ngOnInit(): void {
+    const initial = this.initialTags();
+    if (initial.length > 0) {
+      this.tags.set([...initial]);
+    }
+  }
 
   readonly isAtMax = computed(() => this.tags().length >= this.maxTags());
   readonly highlightedTag = signal<string | null>(null);

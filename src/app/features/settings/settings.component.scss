@@ -1,0 +1,127 @@
+@use '../../../styles/variables' as *;
+
+.settings {
+  max-width: 600px;
+  padding: $spacing-6;
+
+  &__header {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin-bottom: $spacing-8;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__section-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+    margin: 0;
+  }
+
+  &__char-counter {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    text-align: right;
+    margin-top: $spacing-1;
+
+    &--over {
+      color: $color-error;
+    }
+  }
+
+  &__linkedin {
+    margin-top: $spacing-2;
+  }
+
+  &__linkedin-status {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  &__linkedin-badge {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    padding: $spacing-1 $spacing-3;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-full;
+
+    &--connected {
+      color: $color-success;
+      border-color: $color-success;
+    }
+  }
+
+  &__actions {
+    padding-top: $spacing-4;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+  }
+
+  &__select {
+    width: 100%;
+    padding: $spacing-3;
+    background-color: $color-bg-input;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-family: $font-family-primary;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-primary;
+    }
+
+    &--error {
+      border-color: $color-error;
+    }
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: $spacing-3;
+    background-color: $color-bg-input;
+    border: 1px solid $color-border-subtle;
+    border-radius: $radius-md;
+    color: $color-text-primary;
+    font-size: $font-size-base;
+    font-family: $font-family-primary;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent-primary;
+    }
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-error;
+  }
+}

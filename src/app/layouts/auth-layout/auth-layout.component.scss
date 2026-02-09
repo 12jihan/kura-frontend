@@ -8,7 +8,7 @@
 
   &__container {
     width: 100%;
-    max-width: 400px;
+    max-width: 800px;
   }
 
   &__header {
@@ -17,7 +17,7 @@
   }
 
   &__logo {
-    font-size: 32px;
+    font-size: $font-size-3xl;
     font-weight: $font-weight-bold;
     color: $color-accent-primary;
   }

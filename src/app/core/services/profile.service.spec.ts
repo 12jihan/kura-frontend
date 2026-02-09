@@ -143,7 +143,7 @@ describe('ProfileService', () => {
       expect(service.profile()?.content_type).toBe('thought-leadership');
     });
 
-    it('should send POST request for step >= 4', async () => {
+    it('should send POST request for step >= 4 with only onboarding fields', async () => {
       httpMock.get.mockReturnValue(of(mockProfile));
       await service.getProfile();
 
@@ -154,9 +154,17 @@ describe('ProfileService', () => {
 
       expect(httpMock.post).toHaveBeenCalledWith(
         '/api/profile/onboard',
-        expect.objectContaining({ step: 4 })
+        {
+          step: 4,
+          data: {
+            handle: 'testhandle',
+            content_type: null,
+            brand_description: null,
+            keywords: ['SaaS'],
+          }
+        }
       );
-      expect(result.onboarding_step).toBe(4);
+      expect(result!.onboarding_step).toBe(4);
       expect(service.profile()?.onboarding_step).toBe(4);
     });
 

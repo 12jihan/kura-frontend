@@ -64,7 +64,7 @@ describe('KeywordsStepComponent', () => {
 
     const hint = fixture.nativeElement.querySelector('.form-group__hint');
     expect(hint).toBeTruthy();
-    expect(hint.textContent).toContain('Press Enter or comma');
+    expect(hint.textContent).toContain('Add keywords that define your niche');
 
     const buttons = fixture.nativeElement.querySelectorAll('app-button');
     expect(buttons.length).toBe(2);

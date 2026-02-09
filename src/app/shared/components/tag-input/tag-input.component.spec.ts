@@ -169,6 +169,19 @@ describe('TagInputComponent', () => {
     expect(removeButton.getAttribute('aria-label')).toBe('Remove indie hacking');
   });
 
+  it('should set id on input when inputId is provided', () => {
+    fixture.componentRef.setInput('inputId', 'my-input');
+    fixture.detectChanges();
+
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('.tag-input__field');
+    expect(input.id).toBe('my-input');
+  });
+
+  it('should not set id on input when inputId is empty', () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('.tag-input__field');
+    expect(input.hasAttribute('id')).toBe(false);
+  });
+
   it('should have role="list" on tags container and role="listitem" on tags', () => {
     component.tags.set(['tag1']);
     fixture.detectChanges();
@@ -178,5 +191,15 @@ describe('TagInputComponent', () => {
 
     const listItem = fixture.nativeElement.querySelector('[role="listitem"]');
     expect(listItem).toBeTruthy();
+  });
+
+  it('should populate tags from initialTags on init', () => {
+    const freshFixture = TestBed.createComponent(TagInputComponent);
+    freshFixture.componentRef.setInput('initialTags', ['angular', 'react']);
+    freshFixture.detectChanges();
+
+    expect(freshFixture.componentInstance.tags()).toEqual(['angular', 'react']);
+    const tags = freshFixture.nativeElement.querySelectorAll('.tag');
+    expect(tags.length).toBe(2);
   });
 });

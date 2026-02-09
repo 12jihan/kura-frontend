@@ -1,6 +1,6 @@
 <div class="tag-input" [class.tag-input--max]="isAtMax()">
   <div class="tag-input__tags" role="list">
-    @for (tag of tags(); track tag; let i = $index) {
+    @for (tag of tags(); track $index; let i = $index) {
       <span
         class="tag"
         [class.tag--highlight]="highlightedTag() === tag"
@@ -21,6 +21,7 @@
       <input
         class="tag-input__field"
         type="text"
+        [attr.id]="inputId() || null"
         [placeholder]="tags().length === 0 ? placeholder() : ''"
         aria-label="Add keyword"
         (keydown)="onKeyDown($event)"

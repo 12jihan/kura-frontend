@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, LayoutGrid, CalendarClock, LogOut, User } from 'lucide-angular';
+import { LucideAngularModule, LayoutGrid, CalendarClock, Settings, LogOut, User } from 'lucide-angular';
 import { AuthService } from '../../../core';
 
 @Component({
@@ -17,6 +17,7 @@ export class SidebarComponent {
   readonly icons = {
     layoutGrid: LayoutGrid,
     calendarClock: CalendarClock,
+    settings: Settings,
     logOut: LogOut,
     user: User,
   };

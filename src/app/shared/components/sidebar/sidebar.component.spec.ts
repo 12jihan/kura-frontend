@@ -37,9 +37,10 @@ describe('SidebarComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const links = compiled.querySelectorAll('.sidebar__link');
 
-    expect(links.length).toBe(2);
+    expect(links.length).toBe(3);
     expect(links[0].textContent).toContain('Cards');
     expect(links[1].textContent).toContain('Scheduled');
+    expect(links[2].textContent).toContain('Settings');
   });
 
   it('should render the logo', () => {
