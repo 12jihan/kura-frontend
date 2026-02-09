@@ -11,6 +11,7 @@ export interface UserProfile {
   keywords: string[];
   onboarding_step: number;
   onboarding_complete: boolean;
+  ai_instructions: string | null;
   linkedin_connected: boolean;
   created_at: string;
   updated_at: string;
@@ -28,6 +29,10 @@ export class ProfileService {
 
   readonly onboardingStep = computed(() => this._profile()?.onboarding_step ?? 0);
   readonly isOnboardingComplete = computed(() => this._profile()?.onboarding_complete === true);
+
+  setProfile(profile: UserProfile): void {
+    this._profile.set(profile);
+  }
 
   async getProfile(): Promise<UserProfile> {
     this.isLoading.set(true);

@@ -10,6 +10,7 @@ const mockProfile: UserProfile = {
   content_type: null,
   brand_description: null,
   keywords: [],
+  ai_instructions: null,
   onboarding_step: 1,
   onboarding_complete: false,
   linkedin_connected: false,
@@ -189,6 +190,25 @@ describe('ProfileService', () => {
       await service.completeOnboardingStep(4, { keywords: ['test'] }).catch(() => {});
 
       expect(service.error()).toBe('Server error');
+    });
+  });
+
+  describe('setProfile', () => {
+    it('should set profile signal directly', () => {
+      expect(service.profile()).toBeNull();
+
+      service.setProfile(mockProfile);
+
+      expect(service.profile()).toEqual(mockProfile);
+    });
+
+    it('should update computed signals when profile is set', () => {
+      const completed = { ...mockProfile, onboarding_step: 4, onboarding_complete: true };
+
+      service.setProfile(completed);
+
+      expect(service.onboardingStep()).toBe(4);
+      expect(service.isOnboardingComplete()).toBe(true);
     });
   });
 

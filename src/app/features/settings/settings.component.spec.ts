@@ -15,6 +15,7 @@ const mockProfile: UserProfile = {
   content_type: 'tech-startups',
   brand_description: 'A test brand description for testing',
   keywords: ['SaaS', 'startup'],
+  ai_instructions: null,
   onboarding_step: 4,
   onboarding_complete: true,
   linkedin_connected: false,
