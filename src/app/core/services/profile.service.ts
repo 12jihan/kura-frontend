@@ -94,7 +94,7 @@ export class ProfileService {
       const currentProfile = this._profile();
 
       const profile = await firstValueFrom(
-        this.http.post<UserProfile>('/api/profile/onboard', {
+        this.http.post<UserProfile>('http://localhost:3000/api/profile/onboard', {
           step,
           data: {
             handle: currentProfile?.handle,

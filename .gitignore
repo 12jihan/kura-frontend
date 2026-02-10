@@ -20,8 +20,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-/.claude
-/.gemini
 .git
 .editorconfig
 
@@ -44,9 +42,7 @@ yarn-error.log
 testem.log
 /typings
 __screenshots__/
-/_bmad
-/_bmad-output
-/.claude
+.claude
 
 # System files
 .DS_Store
