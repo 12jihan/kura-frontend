@@ -58,8 +58,9 @@ export class AuthService {
     this.error.set(null);
 
     try {
-      await createUserWithEmailAndPassword(this.auth, email, password);
-      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
+      const fbData = await createUserWithEmailAndPassword(this.auth, email, password);
+      this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
+      console.log("profile in auth:", this.profile.profile());
       // User will be automatically set via authState subscription
     } catch (err) {
       const authError = err as AuthError;
@@ -75,10 +76,10 @@ export class AuthService {
     this.error.set(null);
 
     try {
-      await signInWithEmailAndPassword(this.auth, email, password);
-      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
-      console.log("firebase_uid", this.user())
-      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
+      const fbData = await signInWithEmailAndPassword(this.auth, email, password);
+      this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
+      console.log("profile in auth:", this.profile.profile());
+
       // User will be automatically set via authState subscription
     } catch (err) {
       const authError = err as AuthError;

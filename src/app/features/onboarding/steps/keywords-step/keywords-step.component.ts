@@ -37,7 +37,10 @@ export class KeywordsStepComponent {
     this.isSubmitting.set(true);
 
     try {
-      await this.profileService.completeOnboardingStep(4, { keywords: this.keywords() });
+      const retrievedProfile = await this.profileService.completeOnboardingStep(4, { keywords: this.keywords() });
+      if (!retrievedProfile) throw Error("could not retrieved profile");
+      this.profileService.updateProfile(retrievedProfile);
+      console.log("successful profile", this.profileService.profile());
       this.toastService.success('Welcome to Kura!');
       await this.router.navigate(['/cards']);
     } catch {

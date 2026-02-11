@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 export interface UserProfile {
   id: string;
   firebase_uid: string;
+  email: string;
   handle: string | null;
   content_type: string | null;
   brand_description: string | null;
@@ -16,6 +17,22 @@ export interface UserProfile {
   created_at: string;
   updated_at: string;
 }
+
+const INITIAL_PROFILE: UserProfile = {
+  id: '',
+  firebase_uid: '',
+  email: '',
+  handle: null,
+  content_type: null,
+  brand_description: null,
+  keywords: [],
+  onboarding_step: 0, // Important so step checks don't fail
+  onboarding_complete: false,
+  ai_instructions: null,
+  linkedin_connected: false,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
@@ -54,17 +71,19 @@ export class ProfileService {
   }
 
   async buildProfile(data: Partial<UserProfile>): Promise<any> {
-    console.log(console.log("profile data:", data));
     this.isLoading.set(true);
     this.error.set(null);
 
+
     try {
-      console.log("profile", this.profile())
-      this._profile.update(current => ({
-        ...current as UserProfile,
-        ...data
-      }));
-      console.log("after profile update", this.profile())
+      this._profile.update(current => {
+        const base = current || { ...INITIAL_PROFILE };
+        return {
+          ...base,
+          ...data
+        }
+      });
+      console.log("Profile:", this.profile())
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update profile';
       this.error.set(message);
@@ -95,12 +114,19 @@ export class ProfileService {
   }
 
   async completeOnboardingStep(step: number, data: Record<string, unknown>): Promise<UserProfile | null> {
+    const current_step: number = step;
+    console.log(current_step)
     this._profile.update(current => {
-      if (!current) return null;
+      const base = current || { ...INITIAL_PROFILE };
+
+      console.log("current", base);
+      console.log("data", data);
+
       return {
-        ...current,
+        ...base,
         ...data,
-        onboarding_step: step
+        onboarding_step: step,
+        onboarding_complete: true,
       } as UserProfile;
     });
 
@@ -119,10 +145,16 @@ export class ProfileService {
         this.http.post<UserProfile>('http://localhost:3000/api/profile/onboard', {
           step,
           data: {
+            firebase_uid: currentProfile?.firebase_uid,
+            email: currentProfile?.email,
             handle: currentProfile?.handle,
             content_type: currentProfile?.content_type,
             brand_description: currentProfile?.brand_description,
             keywords: currentProfile?.keywords,
+            onboarding_step: currentProfile?.onboarding_step,
+            onboarding_complete: currentProfile?.onboarding_complete,
+            ai_instructions: currentProfile?.ai_instructions,
+            linkedin_connected: currentProfile?.linkedin_connected,
           }
         })
       );
