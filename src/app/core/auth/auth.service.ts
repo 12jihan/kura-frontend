@@ -10,12 +10,14 @@ import {
   AuthError,
 } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { ProfileService } from '../services/profile.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly auth = inject(Auth);
+  private readonly profile = inject(ProfileService);
 
   private readonly _user = signal<User | null>(null);
   readonly user = this._user.asReadonly();
@@ -57,6 +59,7 @@ export class AuthService {
 
     try {
       await createUserWithEmailAndPassword(this.auth, email, password);
+      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
       // User will be automatically set via authState subscription
     } catch (err) {
       const authError = err as AuthError;
@@ -73,6 +76,9 @@ export class AuthService {
 
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
+      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
+      console.log("firebase_uid", this.user())
+      this.profile.buildProfile({ firebase_uid: this.user()?.uid });
       // User will be automatically set via authState subscription
     } catch (err) {
       const authError = err as AuthError;

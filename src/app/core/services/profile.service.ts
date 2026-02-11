@@ -53,6 +53,28 @@ export class ProfileService {
     }
   }
 
+  async buildProfile(data: Partial<UserProfile>): Promise<any> {
+    console.log(console.log("profile data:", data));
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    try {
+      console.log("profile", this.profile())
+      this._profile.update(current => ({
+        ...current as UserProfile,
+        ...data
+      }));
+      console.log("after profile update", this.profile())
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to update profile';
+      this.error.set(message);
+      throw err;
+    }
+    finally {
+      this.isLoading.set(false);
+    }
+  }
+
   async updateProfile(data: Partial<UserProfile>): Promise<UserProfile> {
     this.isLoading.set(true);
     this.error.set(null);

@@ -68,7 +68,7 @@ export class LoginComponent {
 
     try {
       await this.authService.login(email, password);
-      await this.router.navigate(['/cards']);
+      // await this.router.navigate(['/cards']);
     } catch {
       this.submitError.set(this.authService.error());
       this.loginForm.enable(); // Re-enable form on error
