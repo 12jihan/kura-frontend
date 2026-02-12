@@ -1,6 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { UserInfo } from 'firebase/auth';
 
 export interface UserProfile {
   id: string;
@@ -70,14 +71,37 @@ export class ProfileService {
     }
   }
 
+  async freshProfile(uid: string): Promise<void> {
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    try {
+      const res = await firstValueFrom(this.http.get<any>('http://localhost:3000/api/user', {
+        params: {
+          uid: uid
+        }
+      }));
+
+      if (res.message == "error") throw Error("Retrieval failed...");
+      const newProfile = res.data;
+
+      console.log("loginGetProfile", newProfile);
+      this.updateProfile(newProfile);
+    } catch (err) {
+      this.error.set("err")
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
   async buildProfile(data: Partial<UserProfile>): Promise<any> {
     this.isLoading.set(true);
     this.error.set(null);
 
-
     try {
       this._profile.update(current => {
         const base = current || { ...INITIAL_PROFILE };
+
         return {
           ...base,
           ...data
@@ -88,8 +112,7 @@ export class ProfileService {
       const message = err instanceof Error ? err.message : 'Failed to update profile';
       this.error.set(message);
       throw err;
-    }
-    finally {
+    } finally {
       this.isLoading.set(false);
     }
   }

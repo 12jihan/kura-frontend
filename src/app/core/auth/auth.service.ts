@@ -77,10 +77,8 @@ export class AuthService {
 
     try {
       const fbData = await signInWithEmailAndPassword(this.auth, email, password);
-      this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
-      console.log("profile in auth:", this.profile.profile());
-
-      // User will be automatically set via authState subscription
+      // await this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
+      await this.profile.freshProfile(fbData.user.uid);
     } catch (err) {
       const authError = err as AuthError;
       this.error.set(this.mapFirebaseError(authError.code));
