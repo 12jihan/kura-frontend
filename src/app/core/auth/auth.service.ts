@@ -77,8 +77,8 @@ export class AuthService {
 
     try {
       const fbData = await signInWithEmailAndPassword(this.auth, email, password);
-      // await this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
-      await this.profile.freshProfile(fbData.user.uid);
+      await this.profile.refreshProfile(fbData.user.uid);
+      console.log(this.profile.profile());
     } catch (err) {
       const authError = err as AuthError;
       this.error.set(this.mapFirebaseError(authError.code));

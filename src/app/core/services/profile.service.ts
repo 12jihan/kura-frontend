@@ -57,11 +57,9 @@ export class ProfileService {
     this.error.set(null);
 
     try {
-      const profile = await firstValueFrom(
-        this.http.get<UserProfile>('/api/profile')
-      );
-      this._profile.set(profile);
-      return profile;
+      const _profile = this.profile();
+      if (!_profile) throw Error("Profile currently null");
+      return _profile;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load profile';
       this.error.set(message);
@@ -71,7 +69,7 @@ export class ProfileService {
     }
   }
 
-  async freshProfile(uid: string): Promise<void> {
+  async refreshProfile(uid: string): Promise<void> {
     this.isLoading.set(true);
     this.error.set(null);
 
