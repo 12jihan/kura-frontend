@@ -15,4 +15,4 @@ EXPOSE 4200
 # Start dev server with hot reload
 # --host 0.0.0.0 allows external access
 # --poll enables file polling for Docker
-CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000", "--allowed-hosts", "all"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000", "--allowed-hosts=all"]
