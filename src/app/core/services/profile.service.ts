@@ -140,8 +140,9 @@ export class ProfileService {
     this._profile.update(current => {
       const base = current || { ...INITIAL_PROFILE };
 
-      console.log("current", base);
-      console.log("data", data);
+      console.log("Trying to figure out current var: ", current);
+      console.log("Data before update:", base);
+      console.log("Data passed:", data);
 
       return {
         ...base,
@@ -160,6 +161,7 @@ export class ProfileService {
     this.error.set(null);
 
     try {
+      console.log("Checking the updated")
       const currentProfile = this._profile();
 
       const profile = await firstValueFrom(
