@@ -152,6 +152,8 @@ export class ProfileService {
       } as UserProfile;
     });
 
+    console.log("After the profile has been udpated: ", this.profile());
+
     // Here we're gonna check if it's the final step
     if (step < 4) {
       return Promise.resolve(this._profile());
@@ -181,6 +183,7 @@ export class ProfileService {
           }
         })
       );
+      console.log("Constructed profile data:", profile);
 
       this._profile.set(profile);
       return profile;
