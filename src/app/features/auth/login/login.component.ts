@@ -65,8 +65,10 @@ export class LoginComponent {
     this.loginForm.disable(); // AC#6: Disable form inputs during submission
 
     const { email, password } = this.loginForm.getRawValue();
+    console.log("user info:", email, password);
 
     try {
+      //TODO: Check the auth service and figure out how to wire eeverything together so that you can navigate to the /cards route without qualms.
       await this.authService.login(email, password);
       await this.router.navigate(['/cards']);
     } catch {

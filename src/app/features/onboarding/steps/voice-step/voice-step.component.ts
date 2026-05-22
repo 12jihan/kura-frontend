@@ -86,7 +86,7 @@ export class VoiceStepComponent {
 
     try {
       await this.profileService.completeOnboardingStep(3, { brand_description: brandDescription });
-      // await this.router.navigate(['/onboarding/step-4']);
+      await this.router.navigate(['/onboarding/step-4']);
     } catch {
       this.toastService.error('Failed to save brand description. Please try again.');
     } finally {

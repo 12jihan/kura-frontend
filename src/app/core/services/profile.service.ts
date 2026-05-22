@@ -1,6 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 import { UserInfo } from 'firebase/auth';
 
 export interface UserProfile {
@@ -82,11 +83,15 @@ export class ProfileService {
 
       if (res.message == "error") throw Error("Retrieval failed...");
       const newProfile = res.data;
-
       console.log("loginGetProfile", newProfile);
-      this.updateProfile(newProfile);
+
+      // TODO: This is gonna stay off for now because truthfully this whole section is meant to be used for updating the profile locally, should anything change. So it doesn't really make sense to update through patching in the api.
+
+      // this.updateProfile(newProfile);
+      // await this.router.navigate(['/cards']);
     } catch (err) {
       this.error.set("err")
+      console.log(" Profile Refresh Error", err);
     } finally {
       this.isLoading.set(false);
     }
@@ -166,8 +171,14 @@ export class ProfileService {
       console.log("Checking the updated")
       const currentProfile = this._profile();
 
+      // this.http.get("/health").subscribe({
+      //   next: (data) => console.log(data),
+      //   error: (err) => console.error(err),
+      //   complete: () => console.log('Fetch Complete'),
+      // });
+
       const profile = await firstValueFrom(
-        this.http.post<UserProfile>('http://localhost:3000/api/profile/onboard', {
+        this.http.post<UserProfile>('/api/profile/onboard', {
           step,
           data: {
             firebase_uid: currentProfile?.firebase_uid,
@@ -183,16 +194,45 @@ export class ProfileService {
           }
         })
       );
-      console.log("Constructed profile data:", profile);
+      console.log("returned profile data:", profile);
 
       this._profile.set(profile);
       return profile;
     } catch (err) {
+      console.log("there was an error:", err);
       const message = err instanceof Error ? err.message : 'Failed to save onboarding step';
       this.error.set(message);
       throw err;
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  async get_user(fb_uid: string): Promise<UserProfile | null> {
+    const _uid: string = fb_uid;
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    try {
+      const profile = await firstValueFrom(
+        this.http.get<UserProfile>('/api/user', {
+          params: {
+            uid: _uid
+          }
+        })
+      );
+
+      console.log("User Found:", profile);
+      this._profile.set(profile);
+
+
+      return profile;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to get user';
+      this.error.set(message);
+      throw err;
+    } finally {
+      this.isLoading.set(false);
+    };
   }
 }

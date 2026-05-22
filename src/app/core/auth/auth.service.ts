@@ -71,17 +71,33 @@ export class AuthService {
     }
   }
 
-  async login(email: string, password: string): Promise<void> {
+  // 1. Check auth/if account exists
+  // 2. Grab Users Profile if account exists
+  // 3. Check if onboarding has been completed
+  // 3.1  if onboarding has been completed send to cards page
+  // 3.2  if onboarding has been completed sent to onboarding
+  async login(email: string, password: string): Promise<boolean> {
     this.isLoading.set(true);
     this.error.set(null);
 
     try {
+      // Checking auth:
+      console.log("checking auth:", this.auth);
+
       const fbData = await signInWithEmailAndPassword(this.auth, email, password);
-      await this.profile.refreshProfile(fbData.user.uid);
-      console.log(this.profile.profile());
+      const _id = fbData.user.uid;
+      // checking firebase data
+      console.log("provider ID:", _id);
+
+      const profile = await this.profile.get_user(_id);
+      // Checking the profile
+      console.log("logging in with:", profile);
+
+      return true;
     } catch (err) {
       const authError = err as AuthError;
       this.error.set(this.mapFirebaseError(authError.code));
+      console.log("login error:", err);
       throw err;
     } finally {
       this.isLoading.set(false);
