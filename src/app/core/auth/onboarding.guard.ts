@@ -7,6 +7,7 @@ export const onboardingGuard: CanActivateFn = async () => {
   const router = inject(Router);
 
   // If profile is not loaded yet, fetch it
+  console.log(profileService.profile());
   if (!profileService.profile()) {
     try {
       await profileService.getProfile();
