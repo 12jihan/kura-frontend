@@ -2,7 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserInfo } from 'firebase/auth';
+import { User, UserInfo } from 'firebase/auth';
 
 export interface UserProfile {
   id: string;
@@ -19,6 +19,14 @@ export interface UserProfile {
   created_at: string;
   updated_at: string;
 }
+
+export interface TestResponse {
+  message: REQ_MSG,
+  body: UserProfile;
+}
+
+export type REQ_MSG = "success" | "failure";
+
 
 const INITIAL_PROFILE: UserProfile = {
   id: '',
@@ -125,10 +133,19 @@ export class ProfileService {
     this.error.set(null);
 
     try {
+      const user_prof = data;
+      const user_id = 1;
+
+      console.log("updateProfile() - user_prof:", user_prof);
+
       const profile = await firstValueFrom(
-        this.http.patch<UserProfile>('/api/profile', data)
+        this.http.get<UserProfile>('/api/user', {
+          params: { id: user_id }
+        })
       );
+
       this._profile.set(profile);
+
       return profile;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update profile';
@@ -140,14 +157,9 @@ export class ProfileService {
   }
 
   async completeOnboardingStep(step: number, data: Record<string, unknown>): Promise<UserProfile | null> {
-    const current_step: number = step;
-    console.log(current_step)
+    // const current_step: number = step;
     this._profile.update(current => {
       const base = current || { ...INITIAL_PROFILE };
-
-      console.log("Trying to figure out current var: ", current);
-      console.log("Data before update:", base);
-      console.log("Data passed:", data);
 
       return {
         ...base,
@@ -157,9 +169,6 @@ export class ProfileService {
       } as UserProfile;
     });
 
-    console.log("After the profile has been udpated: ", this.profile());
-
-    // Here we're gonna check if it's the final step
     if (step < 4) {
       return Promise.resolve(this._profile());
     }
@@ -177,8 +186,8 @@ export class ProfileService {
       //   complete: () => console.log('Fetch Complete'),
       // });
 
-      const profile = await firstValueFrom(
-        this.http.post<UserProfile>('/api/profile/onboard', {
+      const _resp: TestResponse = await firstValueFrom(
+        this.http.post<TestResponse>('/api/profile/onboard', {
           step,
           data: {
             firebase_uid: currentProfile?.firebase_uid,
@@ -194,10 +203,17 @@ export class ProfileService {
           }
         })
       );
-      console.log("returned profile data:", profile);
 
-      this._profile.set(profile);
-      return profile;
+
+      const _msg: REQ_MSG = _resp.message;
+      const _prof: UserProfile = _resp.body;
+
+      console.log("req response:", _msg);
+      console.log("profile received:", _prof);
+
+      this._profile.set(_prof);
+
+      return this._profile();
     } catch (err) {
       console.log("there was an error:", err);
       const message = err instanceof Error ? err.message : 'Failed to save onboarding step';
@@ -210,6 +226,7 @@ export class ProfileService {
 
   async get_user(fb_uid: string): Promise<UserProfile | null> {
     const _uid: string = fb_uid;
+
     this.isLoading.set(true);
     this.error.set(null);
 
