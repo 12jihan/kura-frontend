@@ -183,6 +183,8 @@ export class SettingsComponent implements OnInit, HasUnsavedChanges {
     this.isSaving.set(true);
     try {
       const updated = await this.profileService.updateProfile(data);
+      if (!updated) throw new Error("profile didn't load");
+
       this.toastService.success('Profile updated');
       this.populateForm(updated);
     } catch {

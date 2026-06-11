@@ -22,7 +22,7 @@ export interface UserProfile {
 
 export interface TestResponse {
   message: REQ_MSG,
-  body: UserProfile;
+  data: UserProfile;
 }
 
 export type REQ_MSG = "success" | "failure";
@@ -128,10 +128,11 @@ export class ProfileService {
     }
   }
 
-  async updateProfile(data: Partial<UserProfile>): Promise<UserProfile> {
+  async updateProfile(data: Partial<UserProfile>): Promise<UserProfile | null> {
     this.isLoading.set(true);
     this.error.set(null);
 
+    console.log("huh");
     try {
       const user_prof = data;
       const user_id = 1;
@@ -139,14 +140,15 @@ export class ProfileService {
       console.log("updateProfile() - user_prof:", user_prof);
 
       const profile = await firstValueFrom(
-        this.http.get<UserProfile>('/api/user', {
+        this.http.get<TestResponse>('/api/user', {
           params: { id: user_id }
         })
       );
 
-      this._profile.set(profile);
+      console.log("profile check:", profile);
+      this._profile.set(profile.data);
 
-      return profile;
+      return this.profile();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update profile';
       this.error.set(message);
@@ -206,7 +208,7 @@ export class ProfileService {
 
 
       const _msg: REQ_MSG = _resp.message;
-      const _prof: UserProfile = _resp.body;
+      const _prof: UserProfile = _resp.data;
 
       console.log("req response:", _msg);
       console.log("profile received:", _prof);
@@ -232,7 +234,7 @@ export class ProfileService {
 
     try {
       const profile = await firstValueFrom(
-        this.http.get<UserProfile>('/api/user', {
+        this.http.get<TestResponse>('/api/user', {
           params: {
             uid: _uid
           }
@@ -240,10 +242,9 @@ export class ProfileService {
       );
 
       console.log("User Found:", profile);
-      this._profile.set(profile);
+      this._profile.set(profile.data);
 
-
-      return profile;
+      return this.profile();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to get user';
       this.error.set(message);

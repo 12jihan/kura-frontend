@@ -68,8 +68,8 @@ export class LoginComponent {
     console.log("user info:", email, password);
 
     try {
-      //TODO: Check the auth service and figure out how to wire eeverything together so that you can navigate to the /cards route without qualms.
       await this.authService.login(email, password);
+      console.log("auth should go to /cards:");
       await this.router.navigate(['/cards']);
     } catch {
       this.submitError.set(this.authService.error());

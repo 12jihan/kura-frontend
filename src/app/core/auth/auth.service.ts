@@ -31,6 +31,7 @@ export class AuthService {
     this.user$.subscribe({
       next: (user) => {
         this._user.set(user);
+        console.log("the work:", this.user());
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -60,7 +61,7 @@ export class AuthService {
     try {
       const fbData = await createUserWithEmailAndPassword(this.auth, email, password);
       this.profile.buildProfile({ firebase_uid: fbData.user.uid, email: fbData.user.email ?? email });
-      console.log("profile in auth:", this.profile.profile());
+      // console.log("profile in auth:", this.profile.profile());
       // User will be automatically set via authState subscription
     } catch (err) {
       const authError = err as AuthError;
@@ -82,22 +83,24 @@ export class AuthService {
 
     try {
       // Checking auth:
-      console.log("checking auth:", this.auth);
+      // console.log("checking auth:", this.auth);
 
       const fbData = await signInWithEmailAndPassword(this.auth, email, password);
       const _id = fbData.user.uid;
       // checking firebase data
-      console.log("provider ID:", _id);
+      // console.log("provider ID:", _id);
 
       const profile = await this.profile.get_user(_id);
+
       // Checking the profile
       console.log("logging in with:", profile);
+      if (profile) return true;
 
-      return true;
+      return false;
     } catch (err) {
       const authError = err as AuthError;
       this.error.set(this.mapFirebaseError(authError.code));
-      console.log("login error:", err);
+      // console.log("login error:", err);
       throw err;
     } finally {
       this.isLoading.set(false);

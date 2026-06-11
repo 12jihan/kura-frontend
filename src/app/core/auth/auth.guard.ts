@@ -10,9 +10,13 @@ export const authGuard: CanActivateFn = () => {
   return authService.user$.pipe(
     take(1),
     map((user) => {
+      // console.log("User in the authguard | auth service:", user);
+
       if (user) {
+        // console.log("This will pass:", user?.uid);
         return true;
       }
+      // console.log("navigating to the login page...");
       router.navigate(['/login']);
       return false;
     })
