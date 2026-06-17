@@ -5,6 +5,11 @@ import { ProfileService, UserProfile } from './profile.service';
 
 export type CardStatus = 'active' | 'dismissed' | 'scheduled' | 'posted';
 
+export type CardResponse = {
+  message: "success" | "failed",
+  data: Card[]
+}
+
 export interface Card {
   id: string;
   user_id: string;
@@ -51,11 +56,12 @@ export class CardService {
     this.error.set(null);
 
     try {
-      const cards = await firstValueFrom(
-        this.http.get<Card[]>('/api/cards')
+      const { message, data } = await firstValueFrom(
+        this.http.get<CardResponse>('/api/cards')
       );
-      this._cards.set(cards);
-      return cards;
+      console.log("cards:", message, data);
+      this._cards.set(data);
+      return data;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load cards';
       this.error.set(message);

@@ -29,7 +29,7 @@ export class FeedComponent implements OnInit {
 
   ngOnInit(): void {
     // this.checkLinkedInModal();
-    // this.loadCards();
+    this.loadCards();
   }
 
   private checkLinkedInModal(): void {
