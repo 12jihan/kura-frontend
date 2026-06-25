@@ -28,7 +28,7 @@ export class FeedComponent implements OnInit {
   readonly showLinkedInModal = signal(false);
 
   ngOnInit(): void {
-    this.checkLinkedInModal();
+    // this.checkLinkedInModal();
     this.loadCards();
   }
 
